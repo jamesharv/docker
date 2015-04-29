@@ -1,0 +1,21 @@
+php:
+  image: jamesharv/php-fpm-drupal:latest
+  volumes:
+    - docroot:/var/www/html
+  links:
+    - db
+nginx:
+  image: jamesharv/nginx:latest
+  ports:
+    - "80:80"
+  links:
+    - php
+  volumes:
+    - docker/nginx/sites-available:/etc/nginx/sites-available
+    - docroot:/var/www/html
+db:
+  image: jamesharv/mysql:latest
+  ports:
+    - "3306:3306"
+  volumes:
+    - docker/mysql/data:/var/lib/mysql
