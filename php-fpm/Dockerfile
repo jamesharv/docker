@@ -25,7 +25,11 @@ RUN sudo apt-get -y update && \
   curl -sS https://getcomposer.org/installer | php5 && \
   mv composer.phar /usr/local/bin/composer && \
   composer global require drush/drush:dev-master && \
-  ln -s $HOME/.composer/vendor/drush/drush/drush /usr/local/bin/drush
+  ln -s $HOME/.composer/vendor/drush/drush/drush /usr/local/bin/drush && \
+  # Make www-data user uid/gid 1000 since this is the uid that boot2docker
+  # will use for mounted directories.
+  usermod -u 1000 www-data && \
+  groupmod -g 1000 www-data
 
 ADD php.ini /etc/php5/fpm/php.ini
 ADD www.conf /etc/php5/fpm/pool.d/www.conf

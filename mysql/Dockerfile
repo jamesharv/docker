@@ -1,5 +1,10 @@
-FROM ubuntu:14.04
-RUN sudo apt-get -y update && \
- sudo apt-get -y install mysql-server libapache2-mod-auth-mysql php5-mysql
-CMD mysqld_safe
+FROM mysql:latest
+
+# Make mysql user uid/gid 1000 since this is the uid that boot2docker
+# will use for mounted directories.
+RUN usermod -u 1000 mysql && \
+  groupmod -g 1000 mysql && \
+  ## The previous mysql uid was 999, so chown any 999 files to mysql.
+  find / -uid 999 2>/dev/null | xargs chown mysql:mysql
+
 EXPOSE 3306
