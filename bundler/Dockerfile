@@ -11,8 +11,8 @@ RUN apt-get update -y && \
     export PATH="/usr/local/ruby/bin:$PATH" && \
     echo "gem: --no-ri --no-rdoc" > ~/.gemrc && \
     gem update --system && \
-    gem install compass
+    gem install bundler
 
 ENV PATH /usr/local/ruby/bin:$PATH
 
-CMD compass watch /compass-watch
+CMD bundle
